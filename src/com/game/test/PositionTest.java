@@ -2,6 +2,9 @@ package com.game.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,4 +42,16 @@ class PositionTest {
 		assertEquals('x', position.turn);
 		assertEquals("         ", position.toString());
 	}
+	
+	@Test
+	@DisplayName("Testing possible moves")
+	public void testPossibleMoves() throws Exception {
+		List<Integer> listOfInt = new ArrayList<Integer>();
+		for( int i=0; i< Position.BOARD_SIZE;i++) {
+			listOfInt.add(i);
+		}
+		listOfInt.remove(new Integer(1));
+		listOfInt.remove(new Integer(2));
+		assertEquals(listOfInt, position.move(1).move(2).possibleMoves());
+	}	
 }

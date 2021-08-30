@@ -1,5 +1,8 @@
 package com.game.code;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Position {
 	public static final int DIMENSION = 3;
 	public static final int BOARD_SIZE = DIMENSION*DIMENSION;
@@ -29,6 +32,16 @@ public class Position {
 		return this;
 	}
 	
+	public List<Integer> possibleMoves() {
+		List<Integer> listOfInt = new ArrayList<Integer>();
+		for (int i = 0; i < board.length; i++)
+		{
+			if (board[i] == ' ')
+				listOfInt.add(i);
+		}
+		return listOfInt;
+	}
+			
 	@Override
 	public String toString()
 	{
