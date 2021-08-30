@@ -3,14 +3,19 @@ package com.game.code;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class GameUI extends JFrame	{
 
 	private static final long serialVersionUID = 1L;
-	JButton[] buttons = new JButton[9];
+	Position position = new Position();
+	JButton[] buttons = new JButton[Position.BOARD_SIZE];
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -23,11 +28,31 @@ public class GameUI extends JFrame	{
 	}
 
 	public GameUI() {
-		setLayout(new GridLayout(3, 3));
-		for(int i=0; i<9; i++)
+		setLayout(new GridLayout(Position.DIMENSION, Position.DIMENSION));
+		for(int i = 0; i< Position.BOARD_SIZE; i++)
 		{
 			final JButton button = createButton();
 			buttons[i] = button;
+			final int idx = i ;
+			button.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					button.setText(Character.toString(position.turn));
+					position.move(idx);
+					if(!position.isGameOver())
+					{
+						int bestMoveIdx = position.bestMove();
+						buttons[bestMoveIdx].setText(Character.toString(position.turn));
+						position.move(bestMoveIdx);
+					}
+					if(position.isGameOver())
+					{
+						String message = position.isGameWonBy('x') ? "You won" : 
+							position.isGameWonBy('o') ? "Computer won" : "Draw";
+						JOptionPane.showMessageDialog(null, message); 
+					}
+				}
+			});
 		}
 		pack();
 		setVisible(true);
@@ -40,5 +65,5 @@ public class GameUI extends JFrame	{
 		add(button);
 		return button;
 	}
-
+	
 }

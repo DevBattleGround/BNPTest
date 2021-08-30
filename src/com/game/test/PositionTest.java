@@ -1,5 +1,7 @@
 package com.game.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -54,4 +56,57 @@ class PositionTest {
 		listOfInt.remove(new Integer(2));
 		assertEquals(listOfInt, position.move(1).move(2).possibleMoves());
 	}	
+	
+	@Test
+	@DisplayName("Testing if game is won as per possible moves")
+	public void testIsGameWonBy() throws Exception {
+
+		assertFalse(new Position().isGameWonBy('x'));
+		//testing for win xxx in a row
+		assertTrue(new Position("xxx      ",'x').isGameWonBy('x'));
+		//testing for win xxx in column
+		assertTrue(new Position(
+				 "x  "
+				+"x  "
+				+"x  ",'x').isGameWonBy('x'));
+		//testing for win ooo in diagnoal
+		assertTrue(new Position(
+				 "o  "
+				+" o "
+				+"  o",'x').isGameWonBy('o'));
+		//testing for win ooo in diagnoal
+		assertTrue(new Position(
+				 "  o"
+				+" o "
+				+"o  ",'x').isGameWonBy('o'));
+	}
+	@Test
+	public void testMinMax() throws Exception
+	{
+		// return how many blank spaces are
+		assertEquals(6, new Position("xxx      ",'x').minmax());
+		// negative value if win for o
+		assertEquals(-6, new Position("ooo      ",'o').minmax());
+		// zero if draw
+		assertEquals(0, new Position("xoxxoxoxo",'x').minmax());
+
+		// test recursive cases
+		assertEquals(6, new Position("xx       ",'x').minmax());
+		// neg value if win for o
+	   assertEquals(-6, new Position("oo       ",'o').minmax());
+	}
+	
+	@Test
+	public void testBestMove() throws Exception {
+		assertEquals(2, new Position("xx       ",'x').bestMove());
+		assertEquals(2, new Position("oo       ",'o').bestMove());
+	}
+	@Test
+	public void testIsGameOver() throws Exception
+	{
+		assertFalse(new Position().isGameOver());
+		assertTrue(new Position("xxx      ",'x').isGameOver());
+		assertTrue(new Position("ooo      ",'x').isGameOver());
+		assertTrue(new Position("xoxxoxoxo",'x').isGameOver());
+	}
 }
