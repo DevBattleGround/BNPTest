@@ -2,7 +2,6 @@ package com.game.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,4 +32,11 @@ class PositionTest {
 		assertEquals(" x       ", position.toString());
 	}
 
+	@Test
+	@DisplayName("Testing unmove by x at index 1")
+	public void testUnmove() throws Exception{
+		position = position.move(1).unmove(1);
+		assertEquals('x', position.turn);
+		assertEquals("         ", position.toString());
+	}
 }

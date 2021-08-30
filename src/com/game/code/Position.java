@@ -22,6 +22,12 @@ public class Position {
 		turn = turn == 'x' ? 'o' : 'x';
 		return this;
 	}
+
+	public Position unmove(int index) {
+		board[index] = ' ';
+		turn = turn == 'x' ? 'o' : 'x';
+		return this;
+	}
 	
 	@Override
 	public String toString()
