@@ -26,14 +26,19 @@ public class GameUI extends JFrame	{
 		setLayout(new GridLayout(3, 3));
 		for(int i=0; i<9; i++)
 		{
-			JButton button = new JButton();
-			button.setPreferredSize(new Dimension(100,100));
-			button.setFont(new Font(null, Font.PLAIN, 50));
-			add(button);
+			final JButton button = createButton();
 			buttons[i] = button;
 		}
 		pack();
 		setVisible(true);
+	}
+
+	private JButton createButton() {
+		JButton button = new JButton();
+		button.setPreferredSize(new Dimension(100,100));
+		button.setFont(new Font(null, Font.PLAIN, 50));
+		add(button);
+		return button;
 	}
 
 }
