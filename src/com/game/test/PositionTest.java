@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,14 +18,19 @@ class PositionTest {
 	private Position position;
 
 	@BeforeEach
-	void init() {
-		position = new Position();
+	public void initializePosition() {
+		this.position = new Position();
+	}
+
+	@AfterEach
+	public void clearPosition() {
+		this.position = null;
 	}
 
 	@Test
 	@DisplayName("Testing board initialization")
 	void testNewPosition() throws Exception {
-		assertEquals('x', position.turn);// checking the turn of x
+		assertEquals('x', position.playerTurn);// checking the turn of x
 		assertEquals("         ", position.toString());// 9 blank positions
 	}
 
@@ -32,7 +38,7 @@ class PositionTest {
 	@DisplayName("Testing move by x at index 1")
 	void testMove() throws Exception {
 		position = position.move(1);
-		assertEquals('o', position.turn);
+		assertEquals('o', position.playerTurn);
 		assertEquals(" x       ", position.toString());
 	}
 
@@ -40,7 +46,7 @@ class PositionTest {
 	@DisplayName("Testing unmove by x at index 1")
 	public void testUnmove() throws Exception {
 		position = position.move(1).unmove(1);
-		assertEquals('x', position.turn);
+		assertEquals('x', position.playerTurn);
 		assertEquals("         ", position.toString());
 	}
 

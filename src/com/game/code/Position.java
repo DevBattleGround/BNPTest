@@ -10,40 +10,40 @@ import java.util.Map;
 public class Position {
 	public static final int DIMENSION = 3;
 	public static final int BOARD_SIZE = DIMENSION * DIMENSION;
-	public char turn;
-	public char[] board;
+	public char playerTurn;
+	public char[] ticTacToeBoard;
 	private Map<Integer, Integer> cache = new HashMap<Integer, Integer>();
 
 	public Position() {
 		// Initialising board with blanks and the turn to player X
-		this.turn = 'x';
-		board = new char[BOARD_SIZE];
+		this.playerTurn = 'x';
+		ticTacToeBoard = new char[BOARD_SIZE];
 		for (short i = 0; i < BOARD_SIZE; i++) {
-			board[i] = ' ';
+			ticTacToeBoard[i] = ' ';
 		}
 	}
 
 	public Position(String board, char turn) {
-		this.board = board.toCharArray();
-		this.turn = turn;
+		this.ticTacToeBoard = board.toCharArray();
+		this.playerTurn = turn;
 	}
 
 	public Position move(int index) {
-		board[index] = turn;
-		turn = turn == 'x' ? 'o' : 'x';
+		ticTacToeBoard[index] = playerTurn;
+		playerTurn = playerTurn == 'x' ? 'o' : 'x';
 		return this;
 	}
 
 	public Position unmove(int index) {
-		board[index] = ' ';
-		turn = turn == 'x' ? 'o' : 'x';
+		ticTacToeBoard[index] = ' ';
+		playerTurn = playerTurn == 'x' ? 'o' : 'x';
 		return this;
 	}
 
 	public List<Integer> possibleMoves() {
 		List<Integer> listOfInt = new ArrayList<Integer>();
-		for (int i = 0; i < board.length; i++) {
-			if (board[i] == ' ')
+		for (int i = 0; i < ticTacToeBoard.length; i++) {
+			if (ticTacToeBoard[i] == ' ')
 				listOfInt.add(i);
 		}
 		return listOfInt;
@@ -60,7 +60,7 @@ public class Position {
 			}
 		};
 		List<Integer> list = possibleMoves();
-		return turn == 'x' ? Collections.max(list, cmp) : Collections.min(list, cmp);
+		return playerTurn == 'x' ? Collections.max(list, cmp) : Collections.min(list, cmp);
 
 	}
 
@@ -83,7 +83,7 @@ public class Position {
 			list.add(move(idx).minmax());
 			unmove(idx);
 		}
-		value = turn == 'x' ? Collections.max(list) : Collections.min(list);
+		value = playerTurn == 'x' ? Collections.max(list) : Collections.min(list);
 		cache.put(key, value);
 		return value;
 	}
@@ -107,7 +107,7 @@ public class Position {
 
 	private boolean MatchALine(char turn, int startIndex, int endIndex, int step) {
 		for (int i = startIndex; i < endIndex; i += step) {
-			if (board[i] != turn)
+			if (ticTacToeBoard[i] != turn)
 				return false;
 		}
 		return true;
@@ -116,7 +116,7 @@ public class Position {
 	public int blanks() {
 		int total = 0;
 		for (int i = 0; i < BOARD_SIZE; i++) {
-			if (board[i] == ' ')
+			if (ticTacToeBoard[i] == ' ')
 				total++;
 		}
 		return total;
@@ -130,9 +130,9 @@ public class Position {
 		int value = 0;
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			value = value * 3;
-			if (board[i] == 'x')
+			if (ticTacToeBoard[i] == 'x')
 				value += 1;
-			else if (board[i] == 'o')
+			else if (ticTacToeBoard[i] == 'o')
 				value += 2;
 		}
 		return value;
@@ -140,6 +140,6 @@ public class Position {
 
 	@Override
 	public String toString() {
-		return new String(board);
+		return new String(ticTacToeBoard);
 	}
 }

@@ -51,7 +51,7 @@ public class GameUI extends JFrame {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				button.setText(Character.toString(position.turn));
+				button.setText(Character.toString(position.playerTurn));
 				position.move(idx);
 				if (!position.isGameOver()) {
 					computeBestMove();
@@ -68,7 +68,7 @@ public class GameUI extends JFrame {
 
 			private void computeBestMove() {
 				int bestMoveIdx = position.bestMove();
-				buttons[bestMoveIdx].setText(Character.toString(position.turn));
+				buttons[bestMoveIdx].setText(Character.toString(position.playerTurn));
 				position.move(bestMoveIdx);
 			}
 		});
