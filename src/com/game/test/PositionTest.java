@@ -15,20 +15,19 @@ import com.game.code.Position;
 
 class PositionTest {
 	private Position position;
-	
+
 	@BeforeEach
-	void init()
-	{
+	void init() {
 		position = new Position();
 	}
-	
+
 	@Test
 	@DisplayName("Testing board initialization")
 	void testNewPosition() throws Exception {
 		assertEquals('x', position.turn);// checking the turn of x
 		assertEquals("         ", position.toString());// 9 blank positions
 	}
-	
+
 	@Test
 	@DisplayName("Testing move by x at index 1")
 	void testMove() throws Exception {
@@ -39,74 +38,65 @@ class PositionTest {
 
 	@Test
 	@DisplayName("Testing unmove by x at index 1")
-	public void testUnmove() throws Exception{
+	public void testUnmove() throws Exception {
 		position = position.move(1).unmove(1);
 		assertEquals('x', position.turn);
 		assertEquals("         ", position.toString());
 	}
-	
+
 	@Test
 	@DisplayName("Testing possible moves")
 	public void testPossibleMoves() throws Exception {
 		List<Integer> listOfInt = new ArrayList<Integer>();
-		for( int i=0; i< Position.BOARD_SIZE;i++) {
+		for (int i = 0; i < Position.BOARD_SIZE; i++) {
 			listOfInt.add(i);
 		}
 		listOfInt.remove(new Integer(1));
 		listOfInt.remove(new Integer(2));
 		assertEquals(listOfInt, position.move(1).move(2).possibleMoves());
-	}	
-	
+	}
+
 	@Test
 	@DisplayName("Testing if game is won as per possible moves")
 	public void testIsGameWonBy() throws Exception {
 
 		assertFalse(new Position().isGameWonBy('x'));
-		//testing for win xxx in a row
-		assertTrue(new Position("xxx      ",'x').isGameWonBy('x'));
-		//testing for win xxx in column
-		assertTrue(new Position(
-				 "x  "
-				+"x  "
-				+"x  ",'x').isGameWonBy('x'));
-		//testing for win ooo in diagnoal
-		assertTrue(new Position(
-				 "o  "
-				+" o "
-				+"  o",'x').isGameWonBy('o'));
-		//testing for win ooo in diagnoal
-		assertTrue(new Position(
-				 "  o"
-				+" o "
-				+"o  ",'x').isGameWonBy('o'));
+		// testing for win xxx in a row
+		assertTrue(new Position("xxx      ", 'x').isGameWonBy('x'));
+		// testing for win xxx in column
+		assertTrue(new Position("x  " + "x  " + "x  ", 'x').isGameWonBy('x'));
+		// testing for win ooo in diagnoal
+		assertTrue(new Position("o  " + " o " + "  o", 'x').isGameWonBy('o'));
+		// testing for win ooo in diagnoal
+		assertTrue(new Position("  o" + " o " + "o  ", 'x').isGameWonBy('o'));
 	}
+
 	@Test
-	public void testMinMax() throws Exception
-	{
+	public void testMinMax() throws Exception {
 		// return how many blank spaces are
-		assertEquals(6, new Position("xxx      ",'x').minmax());
+		assertEquals(6, new Position("xxx      ", 'x').minmax());
 		// negative value if win for o
-		assertEquals(-6, new Position("ooo      ",'o').minmax());
+		assertEquals(-6, new Position("ooo      ", 'o').minmax());
 		// zero if draw
-		assertEquals(0, new Position("xoxxoxoxo",'x').minmax());
+		assertEquals(0, new Position("xoxxoxoxo", 'x').minmax());
 
 		// test recursive cases
-		assertEquals(6, new Position("xx       ",'x').minmax());
+		assertEquals(6, new Position("xx       ", 'x').minmax());
 		// neg value if win for o
-	   assertEquals(-6, new Position("oo       ",'o').minmax());
+		assertEquals(-6, new Position("oo       ", 'o').minmax());
 	}
-	
+
 	@Test
 	public void testBestMove() throws Exception {
-		assertEquals(2, new Position("xx       ",'x').bestMove());
-		assertEquals(2, new Position("oo       ",'o').bestMove());
+		assertEquals(2, new Position("xx       ", 'x').bestMove());
+		assertEquals(2, new Position("oo       ", 'o').bestMove());
 	}
+
 	@Test
-	public void testIsGameOver() throws Exception
-	{
+	public void testIsGameOver() throws Exception {
 		assertFalse(new Position().isGameOver());
-		assertTrue(new Position("xxx      ",'x').isGameOver());
-		assertTrue(new Position("ooo      ",'x').isGameOver());
-		assertTrue(new Position("xoxxoxoxo",'x').isGameOver());
+		assertTrue(new Position("xxx      ", 'x').isGameOver());
+		assertTrue(new Position("ooo      ", 'x').isGameOver());
+		assertTrue(new Position("xoxxoxoxo", 'x').isGameOver());
 	}
 }
