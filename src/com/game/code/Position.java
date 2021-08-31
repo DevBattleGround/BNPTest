@@ -72,10 +72,10 @@ public class Position {
 			return value;
 
 		if (isGameWonBy('x'))
-			return blanks();
+			return blanksOnBoard();
 		if (isGameWonBy('o'))
-			return -blanks();
-		if (blanks() == 0)
+			return -blanksOnBoard();
+		if (blanksOnBoard() == 0)
 			return 0;
 		// recursive cases
 		List<Integer> list = new ArrayList<Integer>();
@@ -89,19 +89,32 @@ public class Position {
 	}
 
 	public boolean isGameWonBy(char turn) {
+
 		boolean isWin = false;
-		// test win for xxx in row
-		for (int i = 0; i < BOARD_SIZE; i += DIMENSION) {
-			isWin = isWin || MatchALine(turn, i, i + DIMENSION, 1);
-		}
-		// test win for xxx in column
+		return matchesFoundInRow(turn, isWin) ||	matchesFoundInColumn(turn, isWin) || matchesFoundInLeftDiagonal(turn, isWin) || matchesFoundInRightDiagonal(turn, isWin);
+	}
+
+	private boolean matchesFoundInLeftDiagonal(char turn, boolean isWin) {
+		isWin = isWin || MatchALine(turn, 0, BOARD_SIZE, DIMENSION + 1);
+		return isWin;
+	}
+
+	private boolean matchesFoundInRightDiagonal(char turn, boolean isWin) {
+		isWin = isWin || MatchALine(turn, DIMENSION - 1, BOARD_SIZE - 1, DIMENSION - 1);
+		return isWin;
+	}
+
+	private boolean matchesFoundInColumn(char turn, boolean isWin) {
 		for (int i = 0; i < DIMENSION; i++) {
 			isWin = isWin || MatchALine(turn, i, BOARD_SIZE, DIMENSION);
 		}
-		// test for diagonal
-		isWin = isWin || MatchALine(turn, 0, BOARD_SIZE, DIMENSION + 1);
-		// test for diagonal
-		isWin = isWin || MatchALine(turn, DIMENSION - 1, BOARD_SIZE - 1, DIMENSION - 1);
+		return isWin;
+	}
+
+	private boolean matchesFoundInRow(char turn, boolean isWin) {
+		for (int i = 0; i < BOARD_SIZE; i += DIMENSION) {
+			isWin = isWin || MatchALine(turn, i, i + DIMENSION, 1);
+		}
 		return isWin;
 	}
 
@@ -113,17 +126,17 @@ public class Position {
 		return true;
 	}
 
-	public int blanks() {
-		int total = 0;
+	public int blanksOnBoard() {
+		int totalBlanksOnBoard = 0;
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			if (ticTacToeBoard[i] == ' ')
-				total++;
+				totalBlanksOnBoard++;
 		}
-		return total;
+		return totalBlanksOnBoard;
 	}
 
 	public boolean isGameOver() {
-		return isGameWonBy('x') || isGameWonBy('o') || blanks() == 0;
+		return isGameWonBy('x') || isGameWonBy('o') || blanksOnBoard() == 0;
 	}
 
 	public int generateKey() {
