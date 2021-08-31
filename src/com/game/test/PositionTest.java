@@ -67,14 +67,23 @@ class PositionTest {
 	public void testIsGameWonBy() throws Exception {
 
 		assertFalse(new Position().isGameWonBy('x'));
-		// testing for win xxx in a row
-		assertTrue(new Position("xxx      ", 'x').isGameWonBy('x'));
-		// testing for win xxx in column
-		assertTrue(new Position("x  " + "x  " + "x  ", 'x').isGameWonBy('x'));
-		// testing for win ooo in diagnoal
-		assertTrue(new Position("o  " + " o " + "  o", 'x').isGameWonBy('o'));
-		// testing for win ooo in diagnoal
-		assertTrue(new Position("  o" + " o " + "o  ", 'x').isGameWonBy('o'));
+		//testing for win xxx in a row
+				assertTrue(new Position("xxx      ",'x').isGameWonBy('x'));
+				//testing for win xxx in column
+				assertTrue(new Position(
+						 "x  "
+						+"x  "
+						+"x  ",'x').isGameWonBy('x'));
+				//testing for win ooo in diagnoal
+				assertTrue(new Position(
+						 "o  "
+						+" o "
+						+"  o",'x').isGameWonBy('o'));
+				//testing for win ooo in diagnoal
+				assertTrue(new Position(
+						 "  o"
+						+" o "
+						+"o  ",'x').isGameWonBy('o'));
 	}
 
 	@Test
